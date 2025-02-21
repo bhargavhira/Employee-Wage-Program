@@ -14,6 +14,7 @@ def calculate_wage():
         working_hours = 12  # Full-time assumed as 12 hours
 
     daily_wage = wage_per_hour * working_hours
+
     print(f"Employee Type: {work_type}")
     print(f"Daily Wage: ${daily_wage}")
 
