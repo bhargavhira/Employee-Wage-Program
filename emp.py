@@ -1,14 +1,13 @@
 import random
 
-def check_attendance():
-    print("Welcome to the Employee Wages Computation Program")
+def calculate_wage():
+    print("Employee Wage Computation Program")
 
-    attendance = random.choice([1, 0])
+    wage_per_hour = 20  
+    working_hours = random.choice([0, 4, 8])  # Employee may work 0, 4, or 8 hours
 
-    if attendance:
-        print("The employee is Present")
-    else:
-        print("The employee is Absent")
+    daily_wage = wage_per_hour * working_hours
+    print(f"Daily Wage: ${daily_wage}")
 
 if __name__ == "__main__":
-    check_attendance()
+    calculate_wage()
