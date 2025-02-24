@@ -1,23 +1,24 @@
 import random
 
 class EmployeeWage:
-    def __init__(self, wage_per_hour=20, max_days=20, max_hours=100):
-        # Initializes instance variables
-        self.wage_per_hour = wage_per_hour
-        self.max_days = max_days
-        self.max_hours = max_hours
-        self.total_hours = 0
-        self.total_days = 0
-        self.total_wage = 0
+    @classmethod
+    def calculate_employee_wage(cls, company, wage_per_hour, max_days, max_hours):
+        total_hours = 0
+        total_days = 0
+        total_wage = 0
 
-    def calculate_monthly_wage(self):
-        print("Employee Wage Computation Program")
-        # Loop until maximum days or maximum hours are reached
-        while self.total_days < self.max_days and self.total_hours < self.max_hours:
-            # Randomly chooses a work type for the day
+        print(f"\n{company} Employee Wage Computation Program")
+        print("--------------------------------------------------")
+        # Loop for each day until we reach max_days or max_hours.
+        for day in range(1, max_days + 1):
+            # If total hours already reached max, exit loop.
+            if total_hours >= max_hours:
+                break
+
+            # Randomly choose a work type.
             work_type = random.choice(["Absent", "Part-time", "Full-time"])
-            
-            # Determines working hours based on the work type
+
+            # Set working hours based on work type.
             if work_type == "Absent":
                 working_hours = 0
             elif work_type == "Part-time":
@@ -25,24 +26,35 @@ class EmployeeWage:
             else:
                 working_hours = 12
 
-            # Adjusts hours if adding today's hours exceeds the maximum allowed
-            if self.total_hours + working_hours > self.max_hours:
-                working_hours = self.max_hours - self.total_hours
+            # Adjust hours if adding today's hours would exceed max_hours.
+            if total_hours + working_hours > max_hours:
+                working_hours = max_hours - total_hours
 
-            # Calculates the daily wage
-            daily_wage = self.wage_per_hour * working_hours
+            daily_wage = wage_per_hour * working_hours
 
-            # Updates totals
-            self.total_hours = self.total_hours + working_hours
-            self.total_wage = self.total_wage + daily_wage
-            self.total_days = self.total_days + 1
+            # Update totals.
+            total_hours = total_hours + working_hours
+            total_wage = total_wage + daily_wage
+            total_days = total_days + 1
 
-            print(f"Day {self.total_days}: {work_type} | Hours Worked: {working_hours} | Daily Wage: ${daily_wage}")
+            # Print today's report.
+            print(f"Day {total_days}: {work_type} | Hours Worked: {working_hours} | Daily Wage: ${daily_wage}")
 
+        # Print final report.
         print("\nFinal Monthly Report:")
-        print(f"Total Days Worked: {self.total_days}")
-        print(f"Total Hours Worked: {self.total_hours}")
-        print(f"Total Monthly Wage: ${self.total_wage}")
+        print(f"Total Days Worked: {total_days}")
+        print(f"Total Hours Worked: {total_hours}")
+        print(f"Total Monthly Wage: ${total_wage}")
+        print("--------------------------------------------------")
 
-employee = EmployeeWage()
-employee.calculate_monthly_wage()
+# Take input for multiple companies using a for loop.
+num_companies = int(input("Enter the number of companies: "))
+
+for i in range(num_companies):
+    print(f"\nEnter details for Company {i+1}:")
+    company = input("Enter company name: ")
+    wage_per_hour = float(input("Enter wage per hour: "))
+    max_days = int(input("Enter maximum working days per month: "))
+    max_hours = int(input("Enter maximum working hours per month: "))
+
+    EmployeeWage.calculate_employee_wage(company, wage_per_hour, max_days, max_hours)
